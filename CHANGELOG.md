@@ -1,6 +1,7 @@
 # Prowide Core - CHANGELOG
 
 #### 10.3.17 - July 2026
+  * Build: raised the minimum Java baseline from 11 to 17 (Gradle toolchain, jar manifest Source/Target-Compatibility and CI). No API or business-logic changes
   * (GH-327) Fix: Field 44J serialization now adds the mandatory starting slash in the narrative line when the narrative component is set without it
   * Fix: large XML documents with many escaped characters (e.g. camt/pacs statements) no longer fail to parse on Java 24 and newer JVMs
 
