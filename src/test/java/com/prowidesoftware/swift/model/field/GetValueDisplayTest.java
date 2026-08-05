@@ -18,6 +18,7 @@ package com.prowidesoftware.swift.model.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -39,8 +40,11 @@ public class GetValueDisplayTest {
         f = new Field36("1234,234567890120");
         assertEquals("1,234.23456789012", f.getValueDisplay(Locale.US));
         assertEquals("1.234,23456789012", f.getValueDisplay(Locale.GERMANY));
-        // TODO this statement fails in Java 17. has to do with String compaction, need to examine further:
-        assertEquals("1 234,23456789012", f.getValueDisplay(Locale.FRANCE));
+        final DecimalFormatSymbols franceSymbols = DecimalFormatSymbols.getInstance(Locale.FRANCE);
+        assertEquals(
+                "1" + franceSymbols.getGroupingSeparator() + "234" + franceSymbols.getDecimalSeparator()
+                        + "23456789012",
+                f.getValueDisplay(Locale.FRANCE));
     }
 
     /*
@@ -55,8 +59,10 @@ public class GetValueDisplayTest {
         f = new Field32A("121212USD1234,5670");
         assertEquals("1,234.567", f.getValueDisplay(3, Locale.US));
         assertEquals("1.234,567", f.getValueDisplay(3, Locale.GERMANY));
-        // TODO this statement fails in Java 17. has to do with String compaction, need to examine further:
-        assertEquals("1 234,567", f.getValueDisplay(3, Locale.FRANCE));
+        final DecimalFormatSymbols franceSymbols = DecimalFormatSymbols.getInstance(Locale.FRANCE);
+        assertEquals(
+                "1" + franceSymbols.getGroupingSeparator() + "234" + franceSymbols.getDecimalSeparator() + "567",
+                f.getValueDisplay(3, Locale.FRANCE));
     }
 
     /*
