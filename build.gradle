@@ -326,10 +326,8 @@ tasks.withType(Test).configureEach {
     // DeprecationUtils#setEnv reflects into java.lang.ProcessEnvironment (and falls back to
     // java.util.Collections$UnmodifiableMap) on purpose; open both packages so the JVM does
     // not print illegal-access warnings on JDK 17+.
-    // Keep the legacy locale data provider first so localized output remains stable on JDK 17.
     jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED',
-            '--add-opens=java.base/java.util=ALL-UNNAMED',
-            '-Djava.locale.providers=COMPAT,CLDR'
+            '--add-opens=java.base/java.util=ALL-UNNAMED'
     doFirst {
         println 'Running test on ' + getJavaLauncher().get().getMetadata().getInstallationPath()
     }
