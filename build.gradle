@@ -325,7 +325,7 @@ tasks.register('bundle', Zip) {
 tasks.withType(Test).configureEach {
     // DeprecationUtils#setEnv reflects into java.lang.ProcessEnvironment (and falls back to
     // java.util.Collections$UnmodifiableMap) on purpose; open both packages so the JVM does
-    // not print illegal-access warnings on JDK 11+.
+    // not print illegal-access warnings on JDK 17+.
     jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED', '--add-opens=java.base/java.util=ALL-UNNAMED'
     // JDK 17 ships newer CLDR locale data than JDK 11 (e.g. the French grouping separator changed
     // from NO-BREAK SPACE U+00A0 to NARROW NO-BREAK SPACE U+202F). Pin the legacy COMPAT provider so
