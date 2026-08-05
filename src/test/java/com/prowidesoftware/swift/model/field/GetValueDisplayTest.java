@@ -28,8 +28,8 @@ import org.junit.jupiter.api.Test;
  */
 public class GetValueDisplayTest {
 
-    // the fr-FR grouping separator comes from the JDK CLDR data: a NO-BREAK SPACE up to JDK 12 and a
-    // NARROW NO-BREAK SPACE from JDK 13 onwards
+    // the fr-FR grouping separator comes from the JDK CLDR data: NO-BREAK SPACE up to JDK 12, NARROW NO-BREAK
+    // SPACE from JDK 13 onwards
     private static final char FRENCH_GROUPING_SEPARATOR =
             DecimalFormatSymbols.getInstance(Locale.FRANCE).getGroupingSeparator();
 

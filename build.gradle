@@ -332,12 +332,6 @@ tasks.withType(Test).configureEach {
     }
 }
 
-tasks.register('testOn17', Test) {
-    javaLauncher = javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
 tasks.register('testOn21', Test) {
     javaLauncher = javaToolchains.launcherFor {
         languageVersion = JavaLanguageVersion.of(21)
