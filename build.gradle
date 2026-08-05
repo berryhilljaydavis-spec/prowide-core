@@ -38,7 +38,7 @@ project.version = "${SRU}-${scmVersion.version}"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -94,8 +94,8 @@ tasks.withType(Jar).configureEach {
         'Implementation-Version': project.version,
         'Implementation-Vendor': 'www.prowidesoftware.com',
         'Built-OS': System.getProperty('os.name'),
-        'Source-Compatibility': JavaVersion.VERSION_11,
-        'Target-Compatibility': JavaVersion.VERSION_11,
+        'Source-Compatibility': JavaVersion.VERSION_17,
+        'Target-Compatibility': JavaVersion.VERSION_17,
         'Built-Date': new Date().format("yyyy-MM-dd"),
         'Automatic-Module-Name': 'com.prowidesoftware.core'
     )
@@ -325,8 +325,11 @@ tasks.register('bundle', Zip) {
 tasks.withType(Test).configureEach {
     // DeprecationUtils#setEnv reflects into java.lang.ProcessEnvironment (and falls back to
     // java.util.Collections$UnmodifiableMap) on purpose; open both packages so the JVM does
-    // not print illegal-access warnings on JDK 11+.
-    jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED', '--add-opens=java.base/java.util=ALL-UNNAMED'
+    // not print illegal-access warnings on JDK 17+.
+    // Keep the legacy locale data provider first so localized output remains stable on JDK 17.
+    jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.util=ALL-UNNAMED',
+            '-Djava.locale.providers=COMPAT,CLDR'
     doFirst {
         println 'Running test on ' + getJavaLauncher().get().getMetadata().getInstallationPath()
     }
@@ -344,9 +347,9 @@ tasks.register('testOn21', Test) {
     }
 }
 
-// Runs the suite on a Java 25 toolchain to verify the Java 11 artifacts execute correctly on Java 25.
+// Runs the suite on a Java 25 toolchain to verify the Java 17 artifacts execute correctly on Java 25.
 // Needed to catch JDK-version behavior changes (e.g. JDK 24 tightened the JAXP entity size limits) that
-// cannot manifest on the Java 11/17/21 the build otherwise uses. JDK 25 must be available to the Gradle
+// cannot manifest on the Java 17/21 the build otherwise uses. JDK 25 must be available to the Gradle
 // toolchain (CI passes -Porg.gradle.java.installations.paths=/pw/dev/jdk25).
 tasks.register('testOn25', Test) {
     description = 'Runs tests using a Java 25 toolchain to verify compatibility'
